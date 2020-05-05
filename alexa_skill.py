@@ -1,4 +1,5 @@
 import sys
+import requests
 import json
 from v9 import V9Component
 
@@ -11,8 +12,8 @@ def get_welcome_response():
     should_end_session = False
     card_title = "Drone Pilot"
     speech_output = "Welcome to the Alexa Drone Pilot skill!" \
-                    "You can ask me to send a variety of different commands to your Tello drone. I can have" \
-                    "have the drone take off or move in a particular direction. "
+                    "You can ask me to send a variety of different commands to your Tello drone. I can have " \
+                    "the drone take off or move in a particular direction. "
     reprompt_text = "Please ask me to send the drone a command. Maybe have it take off?"
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
@@ -47,7 +48,7 @@ def drone_takeoff():
     should_end_session = False
 
     speech_output = "Drone now taking off!"
-    # Drone should take off here
+    requests.post('68.9.94.121:6000/drone/command/takeoff')
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -59,7 +60,7 @@ def drone_land():
     should_end_session = False
 
     speech_output = "Drone now landing!"
-    # Drone should take off here
+    requests.post('68.9.94.121:6000/drone/command/land')
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
