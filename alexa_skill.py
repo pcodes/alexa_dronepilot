@@ -34,6 +34,8 @@ def on_intent(intent_request, session):
         return drone_takeoff()
     elif intent_name == "LandIntent":
         return drone_land()
+    elif intent_name == "MoveIntent":
+        return drone_move(intent_request["intent"])
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
@@ -61,6 +63,20 @@ def drone_land():
 
     speech_output = "Drone now landing!"
     requests.post('68.9.94.121:6000/drone/command/land')
+
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def drone_move(intent_request):
+    session_attributes = {}
+    move_direction = intent_request["slots"]["direction"]["value"]
+    move_amount = intent_request["slots"]["amount"]["value"]
+    card_title = "Moving drone " + move_direction
+    reprompt_text = ""
+    should_end_session = False
+
+    speech_output = "Moving drone " + move_direction + " " + str(move_amount) + " centimeters."
+    requests.post('68.9.94.121:6000/drone/command/move', json={"direction": move_direction, "amount": move_amount})
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
