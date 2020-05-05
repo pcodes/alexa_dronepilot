@@ -30,6 +30,8 @@ def on_intent(intent_request, session):
     intent = intent_request["intent"]
     intent_name = intent_request["intent"]["name"]
 
+    print(intent_name)
+
     if intent_name == "TakeOffIntent":
         return drone_takeoff()
     elif intent_name == "LandIntent":
@@ -120,7 +122,7 @@ def handle_skill_endpoint(http_method, path, request_arguments, request_body):
     body_json = json.loads(request_body)
     print(body_json)
     skill_result = lambda_handler(body_json, body_json["context"])
-    print(http_method, path, request_arguments, request_body)
+    print(skill_result)
     return 200, skill_result
 
 
