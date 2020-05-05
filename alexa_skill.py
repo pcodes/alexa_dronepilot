@@ -52,7 +52,8 @@ def drone_takeoff():
     should_end_session = False
 
     speech_output = "Drone now taking off!"
-    requests.post('68.9.94.121:6000/drone/command/takeoff')
+    response = requests.post('68.9.94.121:6000/drone/command/takeoff')
+    print(response)
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
