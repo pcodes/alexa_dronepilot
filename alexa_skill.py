@@ -3,6 +3,7 @@ import requests
 import json
 from v9 import V9Component
 
+drone_server = 'http://68.9.94.121:6000'
 
 def on_launch(launch_request, session):
      return get_welcome_response()
@@ -52,7 +53,7 @@ def drone_takeoff():
     should_end_session = False
 
     speech_output = "Drone now taking off!"
-    response = requests.post('68.9.94.121:6000/drone/command/takeoff')
+    response = requests.post(drone_server + '/drone/command/takeoff')
     print(response)
 
     return build_response(session_attributes, build_speechlet_response(
@@ -65,7 +66,7 @@ def drone_land():
     should_end_session = False
 
     speech_output = "Drone now landing!"
-    requests.post('68.9.94.121:6000/drone/command/land')
+    requests.post(drone_server + '/drone/command/land')
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -79,7 +80,7 @@ def drone_move(intent_request):
     should_end_session = False
 
     speech_output = "Moving drone " + move_direction + " " + str(move_amount) + " centimeters."
-    requests.post('68.9.94.121:6000/drone/command/move', json={"direction": move_direction, "amount": move_amount})
+    requests.post(drone_server + '/drone/command/move', json={"direction": move_direction, "amount": move_amount})
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
