@@ -1,4 +1,5 @@
 import sys
+import json
 from v9 import V9Component
 
 
@@ -99,8 +100,10 @@ def lambda_handler(event, context):
         return handle_session_end_request()
 
 def handle_skill_endpoint(http_method, path, request_arguments, request_body):
+    body_json = json.loads(request_body)
+    skill_result = lambda_handler(body_json["request"], body_json["context"])
     print(http_method, path, request_arguments, request_body)
-    return 200, "All good here"
+    return 200, skill_result
 
 
 if __name__ == '__main__':
