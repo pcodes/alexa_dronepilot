@@ -101,7 +101,8 @@ def lambda_handler(event, context):
 
 def handle_skill_endpoint(http_method, path, request_arguments, request_body):
     body_json = json.loads(request_body)
-    skill_result = lambda_handler(body_json["request"], body_json["context"])
+    print(body_json)
+    skill_result = lambda_handler(body_json, body_json["context"])
     print(http_method, path, request_arguments, request_body)
     return 200, skill_result
 
